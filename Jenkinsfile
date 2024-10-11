@@ -11,44 +11,47 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/Aamantamboli/Dotnetapi.git', credentialsId: 'windows'
             }
         }
+
+    } 
+}  
         
-        // stage('Restore Dependencies') {
-        //     steps {
-        //         // Use MSBuild to restore dependencies
-        //         bat 'dotnet restore'
-        //     }
-        // }
+    //     stage('Restore Dependencies') {
+    //         steps {
+    //             // Use MSBuild to restore dependencies
+    //             bat 'dotnet restore'
+    //         }
+    //     }
         
-        // stage('Build') {
-        //     steps {
-        //         // Build the .NET API project
-        //         bat 'dotnet build --configuration Release'
-        //     }
-        // }
+    //     stage('Build') {
+    //         steps {
+    //             // Build the .NET API project
+    //             bat 'dotnet build --configuration Release'
+    //         }
+    //     }
         
-        // stage('Publish') {
-            steps {
-                // Publish the .NET API to the IIS folder
-                bat 'dotnet publish -c Release -o ${env.IIS_WEBSITE_PATH}'
-            }
-        }
+    //     stage('Publish') {
+    //         steps {
+    //             // Publish the .NET API to the IIS folder
+    //             bat 'dotnet publish -c Release -o ${env.IIS_WEBSITE_PATH}'
+    //         }
+    //     }
         
-        stage('Deploy to IIS') {
-            steps {
-                // This step will ensure the API is deployed to IIS
-                bat '''
-                Stop-WebAppPool -Name "DefaultAppPool"
-                Start-WebAppPool -Name "DefaultAppPool"
-                '''
-            }
-        }
-    }
-    post {
-        success {
-            echo 'Deployment completed successfully'
-        }
-        failure {
-            echo 'Deployment failed'
-        }
-    }
+    //     stage('Deploy to IIS') {
+    //         steps {
+    //             // This step will ensure the API is deployed to IIS
+    //             bat '''
+    //             Stop-WebAppPool -Name "DefaultAppPool"
+    //             Start-WebAppPool -Name "DefaultAppPool"
+    //             '''
+    //         }
+    //     }
+    // }
+    // post {
+    //     success {
+    //         echo 'Deployment completed successfully'
+    //     }
+    //     failure {
+    //         echo 'Deployment failed'
+    //     }
+    // }
 }
