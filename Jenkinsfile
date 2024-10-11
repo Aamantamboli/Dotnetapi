@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'windows-node' } // Replace 'windows-node' with the label of your Windows EC2 node
     environment {
         // Define paths and environment variables
         IIS_WEBSITE_PATH = 'C:\\inetpub\\wwwroot\\YourApiFolder'
