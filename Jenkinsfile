@@ -14,7 +14,7 @@ pipeline {
         stage('Restore Dependencies') {
             steps {
                 // Use MSBuild to restore dependencies
-                bat 'dotnet restore'
+                bat '"C:\\Program Files\\dotnet\\dotnet.exe" restore'
             }
         }
 
