@@ -12,21 +12,21 @@ pipeline {
             }
         }
         
-        stage('Restore Dependencies') {
-            steps {
-                // Use MSBuild to restore dependencies
-                bat 'dotnet restore'
-            }
-        }
+        // stage('Restore Dependencies') {
+        //     steps {
+        //         // Use MSBuild to restore dependencies
+        //         bat 'dotnet restore'
+        //     }
+        // }
         
-        stage('Build') {
-            steps {
-                // Build the .NET API project
-                bat 'dotnet build --configuration Release'
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         // Build the .NET API project
+        //         bat 'dotnet build --configuration Release'
+        //     }
+        // }
         
-        stage('Publish') {
+        // stage('Publish') {
             steps {
                 // Publish the .NET API to the IIS folder
                 bat 'dotnet publish -c Release -o ${env.IIS_WEBSITE_PATH}'
