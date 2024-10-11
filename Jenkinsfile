@@ -8,7 +8,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 // Checkout the code from your repository
-                git branch: 'main', url: 'https://github.com/Aamantamboli/Dotnetapi.git'
+                git branch: 'main', url: 'https://github.com/Aamantamboli/Dotnetapi.git', credentialsId: 'windows'
             }
         }
         
