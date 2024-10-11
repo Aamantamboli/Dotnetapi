@@ -22,7 +22,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Build the .NET API project
-                bat 'dotnet build --configuration Release'
+                bat 'dotnet build -c Release -o ./bin/Release'
             }
         }
         
