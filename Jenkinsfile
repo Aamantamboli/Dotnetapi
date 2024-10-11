@@ -36,7 +36,7 @@ pipeline {
         stage('Deploy to IIS') {
             steps {
                 // This step will ensure the API is deployed to IIS
-                bat '''
+                powershell '''
                 Stop-WebAppPool -Name "WebAppPool"
                 Start-WebAppPool -Name "WebAppPool"
                 '''
