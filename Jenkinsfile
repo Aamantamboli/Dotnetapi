@@ -37,8 +37,8 @@ pipeline {
             steps {
                 // This step will ensure the API is deployed to IIS
                 bat '''
-                Stop-WebAppPool -Name "DefaultAppPool"
-                Start-WebAppPool -Name "DefaultAppPool"
+                Stop-WebAppPool -Name "WebAppPool"
+                Start-WebAppPool -Name "WebAppPool"
                 '''
             }
         }
