@@ -2,7 +2,7 @@ pipeline {
     agent { label 'windows' } // Replace 'windows-node' with the label of your Windows EC2 node
     environment {
         // Define paths and environment variables
-        IIS_WEBSITE_PATH = 'C:\\inetpub\\wwwroot\\YourApiFolder'
+        IIS_WEBSITE_PATH = 'C:\\inetpub\\wwwroot\\workspace'
     }
     stages {
         stage('Checkout Code') {
