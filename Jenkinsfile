@@ -11,16 +11,17 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/Aamantamboli/Dotnetapi.git', credentialsId: 'windows'
             }
         }
-
-    } 
-}  
         
-    //     stage('Restore Dependencies') {
-    //         steps {
-    //             // Use MSBuild to restore dependencies
-    //             bat 'dotnet restore'
-    //         }
-    //     }
+        stage('Restore Dependencies') {
+            steps {
+                // Use MSBuild to restore dependencies
+                bat 'dotnet restore'
+            }
+        }
+
+    }
+
+} 
         
     //     stage('Build') {
     //         steps {
