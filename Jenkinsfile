@@ -29,7 +29,7 @@ pipeline {
         stage('Publish') {
             steps {
                 // Publish the .NET API to the IIS folder
-                bat 'dotnet publish C:\\Jenkins\\workspace\\windows\\KubernetesAutoClusterAPI' -c Release -r win-x64 --self-contained -o C:\\inetpub\\wwwroot\\Dotnetapi'
+              bat 'dotnet publish "C:/Jenkins/workspace/windows/KubernetesAutoClusterAPI" -c Release -r win-x64 --self-contained -o "C:/inetpub/wwwroot/Dotnetapi"'
             }
         }
         
