@@ -39,7 +39,7 @@ pipeline {
                     bat "rmdir /S /Q \"${targetDir}\""
                     
                     // Create the target directory if it doesn't exist
-                    bat " \"${targetDir}\""
+                    bat "mkdir \"${targetDir}\""
 
                     // Copy the published files to the IIS path
                     bat "xcopy \"${sourceDir}\\*\" \"${targetDir}\" /E /I /Y"
