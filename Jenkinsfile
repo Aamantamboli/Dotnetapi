@@ -1,54 +1,53 @@
 pipeline {
-    agent { label 'windows' } // Replace 'windows-node' with the label of your Windows EC2 node
+    agent { label 'windows' }
+    
     environment {
-        // Define paths and environment variables
-        IIS_WEBSITE_PATH = ' C:\inetpub\wwwroot\workspace\'
+        DOTNET_ROOT = "C:\\Program Files\\dotnet" // Path to .NET SDK
     }
+
     stages {
+        stage('Clean Workspace') {
+            steps {
+                cleanWs() // Clean the workspace before starting
+            }
+        }
+        
         stage('Checkout Code') {
             steps {
-                // Checkout the code from your repository
-                git branch: 'master', url: 'https://github.com/Aamantamboli/Dotnetapi.git', credentialsId: 'windows'
-            }
-        }   
-        stage('Restore Dependencies') {
-            steps {
-                // Use MSBuild to restore dependencies
-                bat '"C:\\Program Files\\dotnet\\dotnet.exe" restore'
+                // Clone the repository into the wwwroot directory
+                dir('C:\\inetpub\\wwwroot') {
+                    git branch: 'main', url: 'https://github.com/Aamantamboli/Dotnetapi.git'
+                }
             }
         }
 
-        
-        stage('Build') {
+        stage('Restore Dependencies') {
             steps {
-                // Build the .NET API project
-                bat 'dotnet build -c Release -o ./bin/Release'
+                // Restore NuGet packages for the .csproj file in KubernetesAutoClusterAPI
+                bat 'dotnet restore C:\\inetpub\\wwwroot\\Dotnetapi\\KubernetesAutoClusterAPI\\'
             }
         }
-        
-        stage('Publish') {
+
+        stage('Build and Publish') {
             steps {
-                // Publish the .NET API to the IIS folder
-                bat 'dotnet publish -c Release -r win-x64 --self-contained false -o ${env.IIS_WEBSITE_PATH}'
+                // Build and publish the project with x64 runtime to the specified folder
+                bat 'dotnet publish C:\\inetpub\\wwwroot\\Dotnetapi\\KubernetesAutoClusterAPI\\ -c Release -r win-x64 --self-contained -o C:\\inetpub\\wwwroot\\published-app'
             }
         }
-        
+
         stage('Deploy to IIS') {
             steps {
-                // This step will ensure the API is deployed to IIS
-                powershell '''
-                Stop-WebAppPool -Name "DefaultAppPool"
-                Start-WebAppPool -Name "WebAppPool"
-                '''
+                // Optional: Move published files to wwwroot folder or deploy to IIS
+                // Replace this section with any IIS deployment commands if necessary
+                echo 'Deploying application to IIS...'
+                // bat 'xcopy /s /e /y C:\\inetpub\\wwwroot\\published-app\\* C:\\inetpub\\wwwroot\\'
             }
         }
     }
+
     post {
-        success {
-            echo 'Deployment completed successfully'
-        }
-        failure {
-            echo 'Deployment failed'
+        always {
+            cleanWs() // Clean up workspace after build
         }
     }
 }
