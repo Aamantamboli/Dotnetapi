@@ -15,12 +15,12 @@ pipeline {
                 bat 'dotnet restore KubernetesAutoClusterAPI/KubernetesAutoClusterAPI.csproj'
             }
         }
-        stage('Build') {
-            steps {
-                // Build the project
-                bat 'dotnet build KubernetesAutoClusterAPI/KubernetesAutoClusterAPI.csproj -c Release'
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         // Build the project
+        //         bat 'dotnet build KubernetesAutoClusterAPI/ -c Release'
+        //     }
+        // }
         stage('Publish') {
             steps {
                 // Publish the API for win-x64
