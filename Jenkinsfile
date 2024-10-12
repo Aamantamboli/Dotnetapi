@@ -37,6 +37,11 @@ pipeline {
 
         stage('Deploy to IIS') {
             steps {
+                // This step will ensure the API is deployed to IIS
+                powershell '''
+                Stop-WebAppPool -Name "DefaultAppPool"
+                Start-WebAppPool -Name "WebAppPool"
+                '''
                 // Optional: Move published files to wwwroot folder or deploy to IIS
                 // Replace this section with any IIS deployment commands if necessary
                 echo 'Deploying application to IIS...'
