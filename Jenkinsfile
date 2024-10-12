@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     // Ensure the correct path to the project file
-                    bat 'dotnet publish "KubernetesAutoClusterAPI/*" -c Release -r win-x64 --self-contained -o "C:/inetpub/wwwroot/Dotnetapi"'
+                    bat 'dotnet publish "C:\Jenkins\workspace\windows\KubernetesAutoClusterAPI*" -c Release -r win-x64 --self-contained -o "C:/inetpub/wwwroot/Dotnetapi"'
                 }
             }
         }
