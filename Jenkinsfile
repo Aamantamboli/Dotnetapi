@@ -1,29 +1,57 @@
 pipeline {
     agent {
-        label 'windows' // Specify your Windows agent label here
+        label 'windows'  // Make sure your Jenkins agent runs on Windows
     }
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from GitHub
-                git url: 'https://github.com/Aamantamboli/Dotnetapi.git'
+                // Checkout the code from your GitHub repo
+                git 'https://github.com/Aamantamboli/Dotnetapi.git'
+            }
+        }
+        stage('Restore Dependencies') {
+            steps {
+                // Restore NuGet packages
+                bat 'dotnet restore KubernetesAutoClusterAPI/KubernetesAutoClusterAPI.csproj'
+            }
+        }
+        stage('Build') {
+            steps {
+                // Build the project
+                bat 'dotnet build KubernetesAutoClusterAPI/KubernetesAutoClusterAPI.csproj -c Release'
             }
         }
         stage('Publish') {
             steps {
+                // Publish the API for win-x64
+                bat 'dotnet publish KubernetesAutoClusterAPI/ -c Release -r win-x64 --self-contained true -o publish'
+            }
+        }
+        stage('Deploy to IIS') {
+            steps {
                 script {
-                    // Ensure the correct path to the project file
-                    bat 'dotnet publish "C:/Jenkins/workspace/windows/KubernetesAutoClusterAPI/KubernetesAutoClusterAPI.csproj" -c Release -r win-x64 --self-contained -o "C:/inetpub/wwwroot/Dotnetapi"'
+                    // Define the source and destination paths
+                    def sourceDir = 'KubernetesAutoClusterAPI/publish'
+                    def targetDir = 'C:/inetpub/wwwroot/KubernetesAutoClusterAPI'
+
+                    // Clean up the target directory (optional)
+                    bat "rmdir /S /Q '${targetDir}'"
+                    
+                    // Create the target directory if it doesn't exist
+                    bat "mkdir '${targetDir}'"
+
+                    // Copy the published files to the IIS path
+                    bat "xcopy '${sourceDir}\\*' '${targetDir}' /E /I /Y"
                 }
             }
         }
     }
     post {
         success {
-            echo 'Publish completed successfully!'
+            echo 'Deployment completed successfully!'
         }
         failure {
-            echo 'Publish failed!'
+            echo 'Deployment failed!'
         }
     }
 }
