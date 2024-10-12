@@ -15,25 +15,26 @@ pipeline {
                 bat 'dotnet restore KubernetesAutoClusterAPI/KubernetesAutoClusterAPI.csproj'
             }
         }
+        // Uncomment this stage if you want to build the project
         // stage('Build') {
         //     steps {
         //         // Build the project
-        //         bat 'dotnet build KubernetesAutoClusterAPI/ -c Release'
+        //         bat 'dotnet build KubernetesAutoClusterAPI/KubernetesAutoClusterAPI.csproj -c Release'
         //     }
         // }
         stage('Publish') {
             steps {
                 // Publish the API for win-x64
-                bat 'dotnet publish -c Release -r win-x64 --self-contained false -o "KubernetesAutoClusterAPI/"'
+                bat 'dotnet publish KubernetesAutoClusterAPI/KubernetesAutoClusterAPI.csproj -c Release -r win-x64 --self-contained false -o "C:\\inetpub\\wwwroot\\KubernetesAutoClusterAPI\\"'
             }
         }
         stage('Deploy to IIS') {
             steps {
                 script {
                     // Define the source and destination paths
-                    def sourceDir = 'KubernetesAutoClusterAPI/publish'
-                    def targetDir = 'C:/inetpub/wwwroot/KubernetesAutoClusterAPI'
-                    
+                    def sourceDir = 'C:\\inetpub\\wwwroot\\KubernetesAutoClusterAPI'
+                    def targetDir = 'C:\\inetpub\\wwwroot\\KubernetesAutoClusterAPI'
+
                     // Clean up the target directory (optional)
                     // bat "rmdir /S /Q \"${targetDir}\""
                     
@@ -41,7 +42,7 @@ pipeline {
                     bat "mkdir \"${targetDir}\""
 
                     // Copy the published files to the IIS path
-                    bat "xcopy '${sourceDir}\\*' '${targetDir}' /E /I /Y"
+                    bat "xcopy \"${sourceDir}\\*\" \"${targetDir}\" /E /I /Y"
                 }
             }
         }
