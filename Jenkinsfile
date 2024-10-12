@@ -36,7 +36,7 @@ pipeline {
                     def targetDir = 'C:\\inetpub\\wwwroot\\KubernetesAutoClusterAPI'
 
                     // Clean up the target directory (optional)
-                    bat "rmdir /S /Q \"${targetDir}\""
+                    // bat "rmdir /S /Q \"${targetDir}\""
                     
                     // Create the target directory if it doesn't exist
                     bat "mkdir \"${targetDir}\""
