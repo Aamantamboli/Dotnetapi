@@ -16,7 +16,7 @@ pipeline {
             steps {
                 // Clone the repository into the wwwroot directory
                 dir('C:\\inetpub\\wwwroot') {
-                    git branch: 'main', url: 'https://github.com/Aamantamboli/Dotnetapi.git'
+                    git branch: 'master', url: 'https://github.com/Aamantamboli/Dotnetapi.git'
                 }
             }
         }
