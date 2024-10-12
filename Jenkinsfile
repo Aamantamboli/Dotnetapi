@@ -24,7 +24,7 @@ pipeline {
         stage('Publish') {
             steps {
                 // Publish the API for win-x64
-                bat 'dotnet publish KubernetesAutoClusterAPI/ -c Release -r win-x64 --self-contained true -o publish'
+                bat 'dotnet publish -c Release -r win-x64 --self-contained false -o "KubernetesAutoClusterAPI/"'
             }
         }
         stage('Deploy to IIS') {
