@@ -1,9 +1,6 @@
 pipeline {
     agent { label 'windows' }
-    
-    environment {
-        DOTNET_ROOT = "C:\\Program Files\\dotnet" // Path to .NET SDK
-    }
+
 
     stages {
         stage('Clean Workspace') {
