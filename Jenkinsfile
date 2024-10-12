@@ -1,51 +1,29 @@
 pipeline {
-    agent { label 'windows' } // Replace 'windows-node' with the label of your Windows EC2 node
+    agent {
+        label 'windows' // Specify your Windows agent label here
+    }
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                // Checkout the code from your repository
-                git branch: 'master', url: 'https://github.com/Aamantamboli/Dotnetapi.git', credentialsId: 'windows'
-            }
-        }   
-        stage('Restore Dependencies') {
-            steps {
-                // Use MSBuild to restore dependencies
-                bat '"C:\\Program Files\\dotnet\\dotnet.exe" restore'
+                // Checkout the code from GitHub
+                git url: 'https://github.com/Aamantamboli/Dotnetapi.git'
             }
         }
-
-        
-        stage('Build') {
-            steps {
-                // Build the .NET API project
-                bat 'dotnet build -c Release -o ./bin/Release'
-            }
-        }
-        
         stage('Publish') {
             steps {
-                // Publish the .NET API to the IIS folder
-              bat 'dotnet publish "C:/Jenkins/workspace/windows/KubernetesAutoClusterAPI" -c Release -r win-x64 --self-contained -o "C:/inetpub/wwwroot/Dotnetapi"'
-            }
-        }
-        
-        stage('Deploy to IIS') {
-            steps {
-                // This step will ensure the API is deployed to IIS
-                powershell '''
-                Stop-Website -Name "Default Web Site"
-                Stop-WebAppPool -Name "DefaultAppPool"
-                Start-WebAppPool -Name "WebAppPool"
-                '''
+                script {
+                    // Ensure the correct path to the project file
+                    bat 'dotnet publish "KubernetesAutoClusterAPI/*" -c Release -r win-x64 --self-contained -o "C:/inetpub/wwwroot/Dotnetapi"'
+                }
             }
         }
     }
     post {
         success {
-            echo 'Deployment completed successfully'
+            echo 'Publish completed successfully!'
         }
         failure {
-            echo 'Deployment failed'
+            echo 'Publish failed!'
         }
     }
 }
